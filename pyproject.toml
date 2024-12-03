@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "granit-py"
+version = "0.1.0"
+description = ""
+authors = ["topov <temagroz-2@yandex.ru>"]
+packages = [{ include = "app" }]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.103.1"
+psycopg = "^3.1.10"
+alembic = "^1.12.0"
+respx = "^0.20.1"
+httpx = "^0.24.1"
+uvicorn = "^0.23.0"
+psycopg2-binary = "^2.9.9"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = "^3.3.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+exclude = '''
+/(
+    \.venv
+    | alembic
+    | \.mypy_cache
+    | \.pytest_cache
+    | \.tox
+    | \.git
+    | __pycache__
+    | build
+    | dist
+)/
+'''
+
+[tool.ruff]
+exclude = [
+    "alembic",
+    ".venv",
+    "__pycache__",
+    "migrations",
+    ".mypy_cache",
+    ".pytest_cache",
+    "build",
+    "dist"
+]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+strict = true
+exclude = '''
+/(
+    \.venv        # Исключение виртуальных окружений
+    | alembic     # Исключение папки alembic
+    | __pycache__
+    | build
+    | dist
+)/
+'''
