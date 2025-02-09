@@ -20,24 +20,35 @@ device_api = DeviceAPI(base_url)
 
 @device_router.post("/", response_model=ResponseCreateDevice)
 def create_device(body: RequestCreateDevice):
-    created_device = device_api.create_device(...)
+    created_device_json = device_api.create_device(body)
     
-    if not created_device:
+    if not created_device_json:
         raise HTTPException(status_code=404, detail=f"Failed created device.")
     # add raises
     
-    return created_device
+    return ResponseCreateDevice(
+        device_id=created_device_json["device_id"],
+        name=created_device_json["name"],
+    )
 
 
 @device_router.get("/{device_id}", reponse_model=ResponseGetDevice)
 def get_device(device_id: uuid.UUID):
-    device = device_api.get_device(device_id)
-    
-    if not device:
+    device_json = device_api.get_device(device_id)
+
+    if not device_json:
         raise HTTPException(status_code=404, detail=f"Device with ID {device_id} not found.")
     # add any raises
-    
-    return device
+
+    current_value = 0 if "current_value" not in device_json else device_json["current_value"]
+
+    return ResponseGetDevice(
+        device_id=device_json["device_id"],
+        name=device_json["name"],
+        type_value=device_json["type_value"],
+        range_values=device_json["range_values"],
+        current_value=current_value,
+    )
 
 
 @device_router.update("/{device_id}")
