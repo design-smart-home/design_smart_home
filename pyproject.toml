@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "granit-py"
+name = "design_smart_home"
 version = "0.1.0"
 description = ""
 authors = ["topov <temagroz-2@yandex.ru>"]

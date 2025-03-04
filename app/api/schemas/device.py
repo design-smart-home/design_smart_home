@@ -15,9 +15,9 @@ class TypesValue(str, Enum):
 
 class RequestCreateDevice(BaseModel):
     name: str
-    type_value: TypesValue
-    range_values: List[int, int] | List[float, float] # ...
-    # current_value: int | float | List
+    data_type: TypesValue
+    range_value: list[int, int] | list[float, float] # ...
+    current_value: int
 
 
 class ResponseCreateDevice(BaseModel):
@@ -28,14 +28,14 @@ class ResponseCreateDevice(BaseModel):
 class ResponseGetDevice(BaseModel):
     device_id: uuid.UUID
     name: str
-    type_value: TypesValue
-    range_values: List[int, int] | List[float, float] # ...
+    data_type: TypesValue
+    range_value: list[int, int] | list[float, float] # ...
     current_value: int | float # List ...
 
 
 class RequestUpdateDevice(BaseModel):
     name: str
     type_value: TypesValue
-    range_values: List[int, int] | List[float, float] # ...
+    range_values: list[int, int] | list[float, float] # ...
     current_value: int | float # List ...
 # Response simple response
