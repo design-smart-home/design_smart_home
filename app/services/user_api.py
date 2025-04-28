@@ -1,5 +1,7 @@
 import httpx
 from uuid import UUID
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 from app.api.schemas.user import RequestCreateUser, RequestUpdateUser
 
@@ -16,13 +18,25 @@ class UserAPI:
         else:
             raise Exception(f"Failed to get user with ID {user_id}. Status code: {response.status_code}")
 
-    def create_user(self, data: RequestCreateUser):
-        url = f"{self.base_url}/users/"
-        response = httpx.post(url, json=data.model_dump())
-        if response.status_code in [200, 201, 202]:
+    def get_user_by_email(self, email: str):
+        url = f"{self.base_url}/users/by_email/{email}"
+        # http://127.0.0.1:8002/users/by_email/string
+        # http://127.0.0.1:8002/users/by_email/string
+        response = httpx.get(url)
+        # http: // 127.0.0.1: 8002 / users / by_email / wef
+        print(url)
+        try:
             return response.json()
-        else:
-            raise Exception(f"Failed to create user. Status code: {response.status_code}")
+        except Exception:
+            return response
+
+    def create_user(self, data: RequestCreateUser):
+        url = f"{self.base_url}/users"
+        response = httpx.post(url, json=data.model_dump())
+        try:
+            return response.json()
+        except Exception as e:
+            raise Exception(f"Failed to create user. Status code: {response.status_code} {e}")
 
     def update_device(self, device_id: UUID, data: RequestUpdateUser):
         url = f"{self.base_url}/users/{device_id}/1.1/"

@@ -1,9 +1,19 @@
 from pydantic import BaseModel
-from typing import List
-
 import uuid
 
-from enum import Enum
+from pydantic_settings import BaseSettings
+
+
+class UserWithPassword(BaseSettings):
+    user_id: uuid.UUID
+    username: str
+    email: str
+    hashed_password: str
+
+class User(BaseModel):
+    user_id: uuid.UUID
+    username: str
+    email: str
 
 
 class RequestCreateUser(BaseModel):
