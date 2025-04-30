@@ -1,7 +1,7 @@
 import httpx
 from uuid import UUID
 
-from app.api.schemas.device import RequestCreateDevice, RequestUpdateDevice
+from app.api.schemas.device import RequestUpdateDevice
 
 
 class DeviceAPI:
@@ -16,9 +16,10 @@ class DeviceAPI:
         else:
             raise Exception(f"Failed to get device with ID {device_id}. Status code: {response.status_code}")
 
-    def create_device(self, data: RequestCreateDevice):
+    def create_device(self, user_id: UUID, name: str, data_type: str, range_value, current_value: int):
         url = f"{self.base_url}/devices/"
-        response = httpx.post(url, json=data.model_dump())
+        data = {"user_id": user_id, "name": name, "data_type": data_type, "range_value": range_value, "current_value": current_value}
+        response = httpx.post(url, json=data)
         if response.status_code in [200, 201, 202]:
             return response.json()
         else:

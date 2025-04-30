@@ -6,6 +6,7 @@ from app.api.schemas.device import (
     ResponseCreateDevice,
     RequestUpdateDevice,
 )
+from app.core.authorization import get_current_user_from_token, get_user_id_from_token
 
 import uuid
 
@@ -15,12 +16,21 @@ from httpx import Response
 device_router = APIRouter()
 
 base_url = "http://127.0.0.1:8001"
+auth_url = "http://127.0.0.1:8002"
 device_api = DeviceAPI(base_url)
 
 
 @device_router.post("/", response_model=ResponseCreateDevice) # http://site.ru/devices/
 def create_device(body: RequestCreateDevice):
-    created_device_json = device_api.create_device(body)
+    jwt_token = body.jwt_token
+    user_id = get_user_id_from_token(jwt_token, auth_url)
+    created_device_json = device_api.create_device(
+        user_id=user_id,
+        name=body.name,
+        data_type=body.data_type,
+        range_value=body.range_value,
+        current_value=body.current_value,
+    )
 
     if not created_device_json:
         raise HTTPException(status_code=404, detail=f"Failed created device.")

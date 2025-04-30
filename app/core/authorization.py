@@ -36,7 +36,7 @@ def authenticate_user(email: str, password: str, url: str):
     return user
 
 
-def get_current_user_from_token(token: str, url):
+def get_current_user_from_token(token: str, url: str):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -52,3 +52,19 @@ def get_current_user_from_token(token: str, url):
     user = _get_user_by_email_for_auth(email, url)
 
     return user
+
+
+def get_user_id_from_token(token: str, url: str):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("user_id")
+        if user_id is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+
+    return user_id

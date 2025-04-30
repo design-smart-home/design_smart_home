@@ -1,4 +1,5 @@
 import httpx
+import requests
 from uuid import UUID
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -19,10 +20,10 @@ class UserAPI:
             raise Exception(f"Failed to get user with ID {user_id}. Status code: {response.status_code}")
 
     def get_user_by_email(self, email: str):
-        url = f"{self.base_url}/users/by_email/{email}"
+        url = f"{self.base_url}/users/by_email/{email}/"
         # http://127.0.0.1:8002/users/by_email/string
         # http://127.0.0.1:8002/users/by_email/string
-        response = httpx.get(url)
+        response = requests.get(url)
         # http: // 127.0.0.1: 8002 / users / by_email / wef
         print(url)
         try:
@@ -32,7 +33,7 @@ class UserAPI:
 
     def create_user(self, data: RequestCreateUser):
         url = f"{self.base_url}/users"
-        response = httpx.post(url, json=data.model_dump())
+        response = requests.post(url, json=data.model_dump())
         try:
             return response.json()
         except Exception as e:

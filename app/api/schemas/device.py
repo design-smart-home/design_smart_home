@@ -14,6 +14,7 @@ class TypesValue(str, Enum):
 
 
 class RequestCreateDevice(BaseModel):
+    jwt_token: str
     name: str
     data_type: TypesValue
     range_value: list[int, int] | list[float, float] # ...
