@@ -59,12 +59,6 @@ def get_widget(widget_id: uuid.UUID):
         name=widget_json["name"]
     )
 
-# class RequestUpdateWidget(BaseModel):
-#     widget_id: uuid.UUID
-#     device_id: uuid.UUID | None = None
-#     type_widget: str | None = None
-#     current_value: int | None = None
-#     name: str | None = None
 
 @widget_router.patch("/{widget_id}", response_model=None)
 def update_widget(widget_id: uuid.UUID, body: RequestUpdateWidget) -> Response:
