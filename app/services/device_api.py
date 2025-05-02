@@ -1,5 +1,6 @@
 import httpx
 from uuid import UUID
+import requests
 
 from app.api.schemas.device import RequestUpdateDevice
 
@@ -40,3 +41,11 @@ class DeviceAPI:
             return response.json()
         else:
             raise Exception(f"Failed to delete device with ID {device_id}. Status code: {response.status_code}")
+
+    def get_all_devices_by_user_id(self, user_id: UUID):
+        url = f"{self.base_url}/devices/all_devices/{user_id}"
+        response = requests.get(url)
+        if response.status_code in [200, 201, 202, 203]:
+            return response.json()
+        else:
+            raise Exception(f"Failed to get devices for user with user_id {user_id}")

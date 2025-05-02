@@ -79,3 +79,12 @@ def delete_device(device_id: uuid.UUID) -> Response:
         raise HTTPException(status_code=400, detail="Unknown error.")
 
     return Response(status_code=200, json={"message": "Successfully deleted."})
+
+
+@device_router.get("/all_devices/{jwt_token}")
+def get_all_devices_by_user_id(jwt_token: str):
+    user_id = get_user_id_from_token(jwt_token, auth_url)
+
+    devices = device_api.get_all_devices_by_user_id(user_id)
+
+    return devices

@@ -16,6 +16,14 @@ class WidgetAPI:
         else:
             raise Exception(f"Failed to get widget with ID {widget_id}. Status code: {response.status_code}")
 
+    def get_all_widgets_on_dashboard(self, dashboard_id: UUID):
+        url = f"{self.base_url}/widgets/widgets_on_dashboard/{dashboard_id}"
+        response = requests.get(url)
+        if response.status_code in [200, 201, 202, 203]:
+            return response.json()
+        else:
+            raise Exception(f"Failed to get widgets for dashboard_id {dashboard_id}")
+
     def create_widget(
             self,
             user_id: UUID,

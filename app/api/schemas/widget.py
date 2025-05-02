@@ -40,3 +40,16 @@ class RequestUpdateWidget(BaseModel):
     type_widget: str | None = None
     current_value: int | None = None
     name: str | None = None
+
+
+class Widget(BaseModel):
+    widget_id: uuid.UUID
+    user_id: uuid.UUID
+    device_id: uuid.UUID | None
+    type_widget: str
+    current_value: int
+    name: str
+
+
+class ResponseGetAllWidgetsOnDashboard(BaseModel):
+    widgets: list[Widget]

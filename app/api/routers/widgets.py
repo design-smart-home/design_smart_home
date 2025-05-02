@@ -60,6 +60,13 @@ def get_widget(widget_id: uuid.UUID):
     )
 
 
+@widget_router.get("/widgets_on_dashboard/{dashboard_id}")
+def get_all_widgets_on_dashboard(dashboard_id: uuid.UUID):
+    widgets = widget_api.get_all_widgets_on_dashboard(dashboard_id)
+
+    return widgets
+
+
 @widget_router.patch("/{widget_id}", response_model=None)
 def update_widget(widget_id: uuid.UUID, body: RequestUpdateWidget) -> Response:
     updated_widget = widget_api.update_widget(
